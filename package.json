@@ -1,7 +1,7 @@
 {
     "scripts": {
-        "test": "node test.js",
-        "build": "tsc neuralnetwork.ts",
-        "watch": "tsc -w neuralnetwork.ts"
+        "test": "node ./dict/test/simple-network-test.js",
+        "build": "tsc --build",
+        "watch": "tsc --watch"
     }
 }

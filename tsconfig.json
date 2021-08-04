@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "removeComments": true,
+        "outDir": "./dict",
+        "sourceMap": false
+    },
+    "include": ["./src/**/*.ts"],
+    "exclude": ["./node_modules"]
+}

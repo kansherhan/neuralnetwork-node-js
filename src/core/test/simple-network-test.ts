@@ -1,4 +1,4 @@
-import { Network, Topology } from "./neuralnetwork";
+import { Network, Topology } from "../neuralnetwork";
 
 const outputs = [ 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1 ];
 const inputs = [

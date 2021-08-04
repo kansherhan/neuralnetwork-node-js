@@ -1,76 +1,6 @@
-class Utils
-{
-    static sigmoid(x: number): number {
-        return 1 / (1 + Math.exp(-x));
-    }
-
-    static dsigmoid(x: number): number {
-		return x * (1 - x);
-	}
-
-    static argmax(arr: Array<any>): number {
-        let maxValueIndex = 0;
-        let maxValue = 0;
-
-        for (let i = 0; i < arr.length; i++) {
-			if (arr[i] > maxValue)
-			{
-				maxValue = arr[i];
-				maxValueIndex = i;
-			}
-		}
-
-        return maxValueIndex;
-    }
-}
-
-class Topology
-{
-    readonly learningRate: number;
-    readonly layerCount: number;
-
-    readonly layerSize: Array<number>;
-
-    constructor(learningRate: number, size: Array<number>) {
-        this.learningRate = learningRate;
-        this.layerCount = size.length;
-        this.layerSize = size;
-    }
-}
-
-class Layer
-{
-    readonly size: number;
-    readonly nextLayerSize: number;
-
-    neurons: Array<number>;
-    biases: Array<number>;
-
-    weights: Array<Array<number>>;
-    
-    static getValueDefault = (): number => Math.random() * 2.0 - 1.0;
-
-    constructor(size: number, nextLayerSize: number) {
-        this.size = size;
-        this.nextLayerSize = nextLayerSize;
-
-        this.neurons = new Array<number>(size);
-        this.biases = new Array<number>(size);
-
-        this.weights = new Array<Array<number>>(size);
-
-        for (let i = 0; i < size; i++) {
-            this.neurons[i] = Layer.getValueDefault();
-            this.biases[i] = Layer.getValueDefault();
-
-            this.weights[i] = new Array();
-
-            for (let j = 0; j < nextLayerSize; j++) {
-                this.weights[i][j] = Layer.getValueDefault();
-            }
-        }
-    }
-}
+import { Utils } from "./utils";
+import { Topology } from "./topology";
+import { Layer } from "./layer";
 
 class Network
 {
@@ -115,7 +45,7 @@ class Network
                 }
 
                 nextLayer.neurons[j] += nextLayer.biases[j];
-                nextLayer.neurons[j] = Utils.sigmoid(nextLayer.neurons[j]);
+                nextLayer.neurons[j] = Network.sigmoid(nextLayer.neurons[j]);
             }
         }
 
@@ -139,7 +69,7 @@ class Network
 
 			let gradients = new Array<number>(nextLayer.size);
 			for (let i = 0; i < gradients.length; i++) {
-				gradients[i] = errors[i] * Utils.dsigmoid(nextLayer.neurons[i]) * this.topology.learningRate;
+				gradients[i] = errors[i] * Network.dsigmoid(nextLayer.neurons[i]) * this.topology.learningRate;
 			}
 
 			let deltas = new Array<Array<number>>(nextLayer.size);
@@ -174,6 +104,14 @@ class Network
 		}
 
         return networkOutputs;
+    }
+
+    static sigmoid(x: number): number {
+        return 1 / (1 + Math.exp(-x));
+    }
+
+    static dsigmoid(x: number): number {
+        return x * (1 - x);
     }
 }
 
